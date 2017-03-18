@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -67,11 +70,44 @@ public class CouponLayout extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+        drawCoupon(canvas,paint);
+        drawDashesLine(paint,canvas);
+        super.onDraw(canvas);
+    }
+
+    /**
+     * 绘制锯齿边
+     * @param canvas
+     * @param paint
+     */
+    private void drawCoupon(Canvas canvas,Paint paint){
         for (int i = 0; i < mNum; i++) {
             float x = mSpace + mRadio + mRemain /2 +((mSpace + mRadio * 2) * i);
             canvas.drawCircle(x, 0, mRadio, paint);//上边
             canvas.drawCircle(x, getHeight(), mRadio, paint);//下边
         }
-        super.onDraw(canvas);
     }
+
+    /**
+     * 绘制虚线
+     */
+    private void drawDashesLine(Paint paint,Canvas canvas){
+        float x = mSpace+mRadio+mRemain/2;
+        float y = mRadio+30;
+        paint.setStyle(Paint.Style.STROKE);
+        Path path = new Path();
+        paint.setStrokeWidth(7);
+        path.moveTo(x,y);//起始点
+        path.lineTo(x,getHeight()-y);//终点
+        PathEffect effect = new DashPathEffect(new float[]{10,10,15,25},0);
+        paint.setPathEffect(effect);
+        canvas.drawPath(path,paint);
+
+        x = getWidth()-x;
+        path.moveTo(x,y);
+        path.lineTo(x,getHeight()-y);
+        canvas.drawPath(path,paint);
+    }
+
 }
