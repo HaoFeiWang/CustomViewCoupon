@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="sawtoothRadius" format="dimension" />
+    <attr name="sawtoothSpace" format="dimension" />
+
+    <!-- name属性值与自定义的组件名没有直接联系 -->
+    <declare-styleable name="CouponLayout">
+        <attr name="sawtoothRadius"/>
+        <attr name="sawtoothSpace" />
+    </declare-styleable>
+</resources>
